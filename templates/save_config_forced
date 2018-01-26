@@ -1,0 +1,3 @@
+for host in $LIST;do
+    ssh $host "yes | save-config"
+done

@@ -1,0 +1,17 @@
+echo -e "Списки какого прокси сервера будем менять?\n"\
+        "1 - банки\n"\
+        "2 - конторки"
+read sq_number 
+case $sq_number in
+1    )    for host in ${LIST};do
+              echo "Начинаю работы с ${host}"
+              scp /opt/scripts/var/src/routergen/default/etc-mods/squid/lst/squid3-allow.lst $host':/etc/squid/lst/'
+              ssh $host 'cat /etc/squid/lst/squid3-allow.lst > /etc/squid/lst/squid3-allow-d.lst && /etc/init.d/squid3 restart'
+          done;;
+2    )    for host in ${LIST};do
+              echo "Начинаю работы с ${host}"
+              scp /opt/scripts/var/src/routergen/default/etc-mods/squid/lst/squid2-allow.lst $host':/etc/squid/lst/'
+              ssh $host 'cat /etc/squid/lst/squid2-allow.lst > /etc/squid/lst/squid2-allow-d.lst && /etc/init.d/squid2 restart'
+          done;;
+*    )    cat ${WRONG_INPUT} && exit 1;;
+esac
